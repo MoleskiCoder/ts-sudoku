@@ -17,7 +17,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     constructor(initial:Array<number>) {
 
-        super(9, 9, initial);
+        super(SudokuGrid._WIDTH, SudokuGrid._HEIGHT, initial);
 
         let numbers = [];
         for (let i = 1; i < (SudokuGrid.DIMENSION + 1); ++i) {
