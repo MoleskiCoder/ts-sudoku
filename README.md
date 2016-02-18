@@ -3,6 +3,6 @@ Sudoku solver in TypeScript
 
 Run with:
 
-npm update
+npm install
 
 node start
