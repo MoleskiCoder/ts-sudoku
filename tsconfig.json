@@ -5,9 +5,6 @@
     "target": "es5"
   },
   "files": [
-    "./app/Sudoku.ts",
-    "./app/Solver.ts",
-    "./app/SudokuGrid.ts",
-    "./app/Grid.ts"
+    "./app/Sudoku.ts"
   ]
 }
