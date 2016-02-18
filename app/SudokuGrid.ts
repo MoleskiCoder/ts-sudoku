@@ -71,11 +71,13 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     }
 
     public  eliminate():void {
-        do {
-            this._eliminateAssigned();
-            this._eliminateDangling();
-        } while (this._transferSingularPossibilities());
 
+        if (SudokuGrid.DIMENSION > 9) {
+            do {
+                this._eliminateAssigned();
+                this._eliminateDangling();
+            } while (this._transferSingularPossibilities());
+        }
         for (let i = 0; i < SudokuGrid.CELL_COUNT; ++i) {
             let possible = this._possibles[i];
             if (possible !== undefined) {
