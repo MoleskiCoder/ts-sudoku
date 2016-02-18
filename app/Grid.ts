@@ -20,7 +20,7 @@ export class Grid {
         return this._height;
     }
 
-    set(first:number, second:number, third?:number) {
+    set(first:number, second:number, third?:number):void {
         if (third === undefined) {
             this._setViaOffset(first, second);
         } else {
@@ -28,7 +28,7 @@ export class Grid {
         }
     }
 
-    get(first:number, second?:number) {
+    get(first:number, second?:number):number {
         if (second === undefined) {
             return this._getViaOffset(first);
         }
