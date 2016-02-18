@@ -68,7 +68,7 @@ export class Solver {
      * number to the given row,column location. As assignment is legal if it that
      * number is not already used in the row, column, or box.
      */
-    _isAvailable(x:number, y:number, number:number):boolean {
+    private _isAvailable(x:number, y:number, number:number):boolean {
         return !this._isUsedInRow(y, number)
             && !this._isUsedInColumn(x, number)
             && !this._isUsedInBox(x - x % SudokuGrid.BOX_DIMENSION, y - y % SudokuGrid.BOX_DIMENSION, number);
@@ -80,7 +80,7 @@ export class Solver {
      * Returns a boolean which indicates whether any assigned entry
      * in the specified row matches the given number.
      */
-    _isUsedInRow(y:number, number:number):boolean {
+    private _isUsedInRow(y:number, number:number):boolean {
         let offset = y * SudokuGrid.DIMENSION;
         for (let x = 0; x < this.width; ++x) {
             if (this.grid.get(offset++) === number) {
@@ -96,7 +96,7 @@ export class Solver {
      * Returns a boolean which indicates whether any assigned entry
      * in the specified column matches the given number.
      */
-    _isUsedInColumn(x:number, number:number):boolean {
+    private _isUsedInColumn(x:number, number:number):boolean {
         let offset = x;
         for (let y = 0; y < this.height; ++y) {
             if (this.grid.get(offset) === number) {
@@ -113,7 +113,7 @@ export class Solver {
      * Returns a boolean which indicates whether any assigned entry
      * within the specified 3x3 box matches the given number.
      */
-    _isUsedInBox(boxStartX:number, boxStartY:number, number:number):boolean {
+    private _isUsedInBox(boxStartX:number, boxStartY:number, number:number):boolean {
         for (let yOffset = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
             let y = yOffset + boxStartY;
             let offset = boxStartX + y * SudokuGrid.DIMENSION;
