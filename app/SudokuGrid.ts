@@ -1,8 +1,9 @@
 ﻿'use strict';
 
 import {Grid} from "./Grid";
+import {ISudokuGrid} from "./ISudokuGrid";
 
-export class SudokuGrid extends Grid {
+export class SudokuGrid extends Grid implements ISudokuGrid {
 
     private static _UNASSIGNED: number = 0;
     private static _DIMENSION: number = 9;
@@ -245,7 +246,7 @@ export class SudokuGrid extends Grid {
         return null;
     }
 
-    toString() {
+    toString():string {
         let output = '\n';
         let height = this.height;
         for (let y = 0; y < height; ++y) {

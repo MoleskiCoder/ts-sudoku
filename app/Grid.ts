@@ -1,6 +1,8 @@
 ﻿'use strict';
 
-export class Grid {
+import {IGrid} from "./IGrid";
+
+export class Grid implements IGrid {
 
     private _height:number;
     private _width:number;

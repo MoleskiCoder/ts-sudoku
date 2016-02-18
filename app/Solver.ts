@@ -1,12 +1,13 @@
 ﻿'use strict';
 
 import {SudokuGrid} from "./SudokuGrid";
+import {ISolver} from "./ISolver";
 
 /**
  * From: https://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf
  *
  */
-export class Solver {
+export class Solver implements ISolver {
 
     private grid:SudokuGrid;
     private width:number;
@@ -18,7 +19,7 @@ export class Solver {
         this.height = this.grid.height;
     }
 
-    solve() {
+    solve():void {
         this.grid.eliminate();
         return this._partialSolve(0);
     }
