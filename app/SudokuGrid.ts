@@ -149,15 +149,13 @@ export class SudokuGrid extends Grid {
     private _adjustPossibleCounters(counters:Array<Array<number>>, offset:number):void {
         let possibles = this._possibles[offset];
         if (possibles !== undefined) {
-            for (let possible of possibles) {
-                if (possible !== undefined) {
-                    let counter = counters[possible];
-                    if (counter === undefined) {
-                        counter = [];
-                        counters[possible] = counter;
-                    }
-                    counter.push(offset);
+            for (let possible in possibles) {
+                let counter = counters[possible];
+                if (counter === undefined) {
+                    counter = [];
+                    counters[possible] = counter;
                 }
+                counter.push(offset);
             }
         }
     }
