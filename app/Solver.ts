@@ -19,7 +19,7 @@ export class Solver implements ISolver {
         this.height = this.grid.height;
     }
 
-    solve():void {
+    solve():boolean {
         this.grid.eliminate();
         return this._partialSolve(0);
     }
