@@ -26,7 +26,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
         for (let offset = 0; offset < SudokuGrid.CELL_COUNT; ++offset) {
             if (this.get(offset) === SudokuGrid.UNASSIGNED) {
-                this._possibles[offset] = numbers.slice(0);
+                this._possibles[offset] = numbers.slice();
             }
         }
     }
@@ -149,16 +149,14 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _adjustPossibleCounters(counters:Array<Array<number>>, offset:number):void {
         let possibles = this._possibles[offset];
         if (possibles !== undefined) {
-            for (let possible of possibles) {
-                if (possible === undefined)
-                    continue;
+            possibles.forEach(function(possible) {
                 let counter = counters[possible];
                 if (counter === undefined) {
                     counter = [];
                     counters[possible] = counter;
                 }
                 counter.push(offset);
-            }
+            });
         }
     }
 
@@ -247,10 +245,8 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     toString():string {
         let output = '\n';
-        let height = this.height;
-        for (let y = 0; y < height; ++y) {
-            let width = this.width;
-            for (let x = 0; x < width; ++x) {
+        for (let y = 0; y < SudokuGrid.HEIGHT; ++y) {
+            for (let x = 0; x < SudokuGrid.WIDTH; ++x) {
                 let number = this.get(x, y);
                 output += ' ';
                 if (number === SudokuGrid.UNASSIGNED) {
@@ -259,11 +255,11 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
                     output += number;
                 }
                 output += ' ';
-                if ((x + 1) % SudokuGrid.BOX_DIMENSION === 0 && x + 1 < width) {
+                if ((x + 1) % SudokuGrid.BOX_DIMENSION === 0 && x + 1 < SudokuGrid.WIDTH) {
                     output += '|';
                 }
             }
-            if ((y + 1) % SudokuGrid.BOX_DIMENSION === 0 && y + 1 < width) {
+            if ((y + 1) % SudokuGrid.BOX_DIMENSION === 0 && y + 1 < SudokuGrid.WIDTH) {
                 output += "\n --------+---------+--------";
             }
             output += '\n';

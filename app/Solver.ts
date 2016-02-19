@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+import {ISudokuGrid} from "./ISudokuGrid";
 import {SudokuGrid} from "./SudokuGrid";
 import {ISolver} from "./ISolver";
 
@@ -9,14 +10,10 @@ import {ISolver} from "./ISolver";
  */
 export class Solver implements ISolver {
 
-    private grid:SudokuGrid;
-    private width:number;
-    private height:number;
+    private grid:ISudokuGrid;
 
-    constructor(start:SudokuGrid) {
+    constructor(start:ISudokuGrid) {
         this.grid = start;
-        this.width = this.grid.width;
-        this.height = this.grid.height;
     }
 
     solve():boolean {
@@ -85,7 +82,7 @@ export class Solver implements ISolver {
      */
     private _isUsedInRow(y:number, number:number):boolean {
         let offset = y * SudokuGrid.DIMENSION;
-        for (let x = 0; x < this.width; ++x) {
+        for (let x = 0; x < SudokuGrid.WIDTH; ++x) {
             if (this.grid.get(offset++) === number) {
                 return true;
             }
@@ -101,7 +98,7 @@ export class Solver implements ISolver {
      */
     private _isUsedInColumn(x:number, number:number):boolean {
         let offset = x;
-        for (let y = 0; y < this.height; ++y) {
+        for (let y = 0; y < SudokuGrid.HEIGHT; ++y) {
             if (this.grid.get(offset) === number) {
                 return true;
             }

@@ -4,21 +4,21 @@ import {IGrid} from "./IGrid";
 
 export class Grid implements IGrid {
 
-    private _height:number;
     private _width:number;
+    private _height:number;
     private _values:Array<number>;
 
     constructor(gridWidth:number, gridHeight:number, initial:Array<number>) {
-        this._height = gridHeight;
         this._width = gridWidth;
+        this._height = gridHeight;
         this._values = initial;
     }
 
-    get width():number {
+    private get width():number {
         return this._width;
     }
 
-    get height():number {
+    private get height():number {
         return this._height;
     }
 
