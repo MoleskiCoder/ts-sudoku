@@ -149,7 +149,9 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _adjustPossibleCounters(counters:Array<Array<number>>, offset:number):void {
         let possibles = this._possibles[offset];
         if (possibles !== undefined) {
-            for (let possible in possibles) {
+            for (let possible of possibles) {
+                if (possible === undefined)
+                    continue;
                 let counter = counters[possible];
                 if (counter === undefined) {
                     counter = [];
@@ -228,19 +230,17 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     private static count(data:Array<any>):number {
         let count = 0;
-        for (let datum in data) {
-            ++count;
+        for (let datum of data) {
+            if (datum !== undefined)
+                ++count;
         }
-        return count
+        return count;
     }
 
     private static first(data:Array<any>):any {
-        let count = data.length;
-        for (let i = 0; i < count; ++i) {
-            let element = data[i];
-            if (element !== undefined) {
-                return element;
-            }
+        for (let datum of data) {
+            if (datum !== undefined)
+                return datum;
         }
         return null;
     }
