@@ -28,7 +28,7 @@ if (solved) {
     console.log(puzzle.toString());
 
     let elapsed = finish - start;
-    let seconds = elapsed / 1000.0 + (elapsed % 1000) / 1000.0;
+    let seconds = elapsed / 1000 + (elapsed % 1000) / 1000;
 
     console.log("Time taken " + seconds + " seconds");
 }
