@@ -50,7 +50,9 @@ export class Solver implements ISolver {
 
         let x = offset % SudokuGrid.DIMENSION;
         let y = Math.floor(offset / SudokuGrid.DIMENSION);
-        for (let number in numbers) {
+        for (let number of numbers) {
+            if (number === undefined)
+                continue;
             if (this._isAvailable(x, y, number)) { // if looks promising,
                 this.grid.set(offset, number); // make tentative assignment
                 if (this._partialSolve(index + 1)) {
