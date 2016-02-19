@@ -77,11 +77,11 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         } while (this._transferSingularPossibilities());
         for (let i = 0; i < SudokuGrid.CELL_COUNT; ++i) {
             let possible = this._possibles[i];
-            if (possible !== undefined) {
-                let possibleCount = SudokuGrid.count(possible);
-                if (possibleCount > 1) {
-                    this._offsets.push(i);
-                }
+            if (possible === undefined)
+                continue;
+            let possibleCount = SudokuGrid.count(possible);
+            if (possibleCount > 1) {
+                this._offsets.push(i);
             }
         }
     }
@@ -136,12 +136,12 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _transferCountedEliminations(counters:Array<Array<number>>):void {
         for (let i = 1; i < (SudokuGrid.DIMENSION + 1); ++i) {
             let counter = counters[i];
-            if (counter !== undefined) {
-                if (counter.length == 1) {
-                    let cell = counter[0];
-                    delete this._possibles[cell];
-                    this._possibles[cell] = [ i ];
-                }
+            if (counter === undefined)
+                continue;
+            if (counter.length == 1) {
+                let cell = counter[0];
+                delete this._possibles[cell];
+                this._possibles[cell] = [ i ];
             }
         }
     }
@@ -181,14 +181,14 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         let transfer = false;
         for (let offset = 0; offset < SudokuGrid.CELL_COUNT; ++offset) {
             let possible = this._possibles[offset];
-            if (possible !== undefined) {
-                let count = SudokuGrid.count(possible);
-                if (count === 1) {
-                    let singular = SudokuGrid.first(possible);
-                    this.set(offset, singular);
-                    delete this._possibles[offset];
-                    transfer = true;
-                }
+            if (possible === undefined)
+                continue;
+            let count = SudokuGrid.count(possible);
+            if (count === 1) {
+                let singular = SudokuGrid.first(possible);
+                this.set(offset, singular);
+                delete this._possibles[offset];
+                transfer = true;
             }
         }
         return transfer;
