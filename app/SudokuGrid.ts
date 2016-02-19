@@ -7,9 +7,9 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     private static _UNASSIGNED: number = 0;
     private static _DIMENSION: number = 9;
-    private static _CELL_COUNT: number = SudokuGrid._DIMENSION * SudokuGrid._DIMENSION;
-    private static _WIDTH: number = SudokuGrid._DIMENSION;
-    private static _HEIGHT: number = SudokuGrid._DIMENSION;
+    private static _CELL_COUNT: number = SudokuGrid.DIMENSION * SudokuGrid.DIMENSION;
+    private static _WIDTH: number = SudokuGrid.DIMENSION;
+    private static _HEIGHT: number = SudokuGrid.DIMENSION;
     private static _BOX_DIMENSION: number = 3;
 
     private _possibles: Array<Array<number>> = [];
@@ -17,7 +17,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     constructor(initial:Array<number>) {
 
-        super(SudokuGrid._WIDTH, SudokuGrid._HEIGHT, initial);
+        super(SudokuGrid.WIDTH, SudokuGrid.HEIGHT, initial);
 
         let numbers = [];
         for (let i = 1; i < (SudokuGrid.DIMENSION + 1); ++i) {
@@ -70,7 +70,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         return this._offsets.length;
     }
 
-    public  eliminate():void {
+    public eliminate():void {
         do {
             this._eliminateAssigned();
             this._eliminateDangling();

@@ -8,5 +8,5 @@ export interface ISudokuGrid extends IGrid {
     getOffset(index:number):number;
     eliminate():void;
 
-    toString(): string;
+    toString():string;
 }
