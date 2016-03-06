@@ -1,5 +1,5 @@
-'use strict';
+"use strict";
 
 export interface ISolver {
-    solve():boolean;
+    solve(): boolean;
 }

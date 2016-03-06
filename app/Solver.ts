@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿"use strict";
 
 import {ISudokuGrid} from "./ISudokuGrid";
 import {SudokuGrid} from "./SudokuGrid";
@@ -10,13 +10,13 @@ import {ISolver} from "./ISolver";
  */
 export class Solver implements ISolver {
 
-    private grid:ISudokuGrid;
+    private grid: ISudokuGrid;
 
-    constructor(start:ISudokuGrid) {
+    constructor(start: ISudokuGrid) {
         this.grid = start;
     }
 
-    solve():boolean {
+    public solve(): boolean {
         this.grid.eliminate();
         return this._partialSolve(0);
     }
@@ -35,23 +35,24 @@ export class Solver implements ISolver {
      * been examined and none worked out, return false to backtrack to previous
      * decision point.
      */
-    private _partialSolve(index:number):boolean {
+    private _partialSolve(index: number): boolean {
 
-        let offset = this.grid.getOffset(index);
+        let offset: number = this.grid.getOffset(index);
 
         if (offset === -1) {
             return true; // success!
         }
 
-        let numbers = this.grid.getPossibilities(offset);
+        let numbers: Array<number> = this.grid.getPossibilities(offset);
 
-        let x = offset % SudokuGrid.DIMENSION;
-        let y = Math.floor(offset / SudokuGrid.DIMENSION);
-        for (let number of numbers) {
-            if (number === undefined)
+        let x: number = offset % SudokuGrid.DIMENSION;
+        let y: number = Math.floor(offset / SudokuGrid.DIMENSION);
+        for (let check of numbers) {
+            if (check === undefined) {
                 continue;
-            if (this._isAvailable(x, y, number)) { // if looks promising,
-                this.grid.set(offset, number); // make tentative assignment
+            }
+            if (this._isAvailable(x, y, check)) { // if looks promising,
+                this.grid.set(offset, check); // make tentative assignment
                 if (this._partialSolve(index + 1)) {
                     return true; // recur, if success, yay!
                 }
@@ -68,10 +69,10 @@ export class Solver implements ISolver {
      * number to the given row,column location. As assignment is legal if it that
      * number is not already used in the row, column, or box.
      */
-    private _isAvailable(x:number, y:number, number:number):boolean {
-        return !this._isUsedInRow(y, number)
-            && !this._isUsedInColumn(x, number)
-            && !this._isUsedInBox(x - x % SudokuGrid.BOX_DIMENSION, y - y % SudokuGrid.BOX_DIMENSION, number);
+    private _isAvailable(x: number, y: number, check: number): boolean {
+        return !this._isUsedInRow(y, check)
+            && !this._isUsedInColumn(x, check)
+            && !this._isUsedInBox(x - x % SudokuGrid.BOX_DIMENSION, y - y % SudokuGrid.BOX_DIMENSION, check);
     }
 
     /*
@@ -80,10 +81,10 @@ export class Solver implements ISolver {
      * Returns a boolean which indicates whether any assigned entry
      * in the specified row matches the given number.
      */
-    private _isUsedInRow(y:number, number:number):boolean {
-        let offset = y * SudokuGrid.DIMENSION;
-        for (let x = 0; x < SudokuGrid.WIDTH; ++x) {
-            if (this.grid.get(offset++) === number) {
+    private _isUsedInRow(y: number, check: number): boolean {
+        let offset: number = y * SudokuGrid.DIMENSION;
+        for (let x: number = 0; x < SudokuGrid.WIDTH; ++x) {
+            if (this.grid.get(offset++) === check) {
                 return true;
             }
         }
@@ -96,10 +97,10 @@ export class Solver implements ISolver {
      * Returns a boolean which indicates whether any assigned entry
      * in the specified column matches the given number.
      */
-    private _isUsedInColumn(x:number, number:number):boolean {
-        let offset = x;
-        for (let y = 0; y < SudokuGrid.HEIGHT; ++y) {
-            if (this.grid.get(offset) === number) {
+    private _isUsedInColumn(x: number, check: number): boolean {
+        let offset: number = x;
+        for (let y: number = 0; y < SudokuGrid.HEIGHT; ++y) {
+            if (this.grid.get(offset) === check) {
                 return true;
             }
             offset += SudokuGrid.DIMENSION;
@@ -113,12 +114,12 @@ export class Solver implements ISolver {
      * Returns a boolean which indicates whether any assigned entry
      * within the specified 3x3 box matches the given number.
      */
-    private _isUsedInBox(boxStartX:number, boxStartY:number, number:number):boolean {
-        for (let yOffset = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
-            let y = yOffset + boxStartY;
-            let offset = boxStartX + y * SudokuGrid.DIMENSION;
-            for (let xOffset = 0; xOffset < SudokuGrid.BOX_DIMENSION; ++xOffset) {
-                if (this.grid.get(offset++) === number) {
+    private _isUsedInBox(boxStartX: number, boxStartY: number, check: number): boolean {
+        for (let yOffset: number = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
+            let y: number = yOffset + boxStartY;
+            let offset: number = boxStartX + y * SudokuGrid.DIMENSION;
+            for (let xOffset: number = 0; xOffset < SudokuGrid.BOX_DIMENSION; ++xOffset) {
+                if (this.grid.get(offset++) === check) {
                     return true;
                 }
             }

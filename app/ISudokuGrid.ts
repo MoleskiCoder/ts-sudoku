@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 import {IGrid} from "./IGrid";
 
 export interface ISudokuGrid extends IGrid {
 
-    getPossibilities(offset:number):Array<number>;
-    getOffset(index:number):number;
-    eliminate():void;
+    getPossibilities(offset: number): Array<number>;
+    getOffset(index: number): number;
+    eliminate(): void;
 
-    toString():string;
+    toString(): string;
 }
