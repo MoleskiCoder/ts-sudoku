@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node app/Sudoku.js",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "lint": "tslint -c tslint.json app/*.ts"
   }
 }
