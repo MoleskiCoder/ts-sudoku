@@ -12,14 +12,14 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private static _HEIGHT: number = SudokuGrid.DIMENSION;
     private static _BOX_DIMENSION: number = 3;
 
-    private _possibles: Array<Array<number>> = [];
-    private _offsets: Array<number> = [];
+    private _possibles: number[][] = [];
+    private _offsets: number[] = [];
 
-    constructor(initial: Array<number>) {
+    constructor(initial: number[]) {
 
         super(SudokuGrid.WIDTH, SudokuGrid.HEIGHT, initial);
 
-        let numbers: Array<number> = [];
+        let numbers: number[] = [];
         for (let i: number = 1; i < (SudokuGrid.DIMENSION + 1); ++i) {
             numbers[i] = i;
         }
@@ -55,13 +55,13 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         return SudokuGrid._BOX_DIMENSION;
     }
 
-    private static count(data: Array<any>): number {
+    private static count(data: any[]): number {
         return data.reduce((count: number) => {
             return ++count;
         });
     }
 
-    private static first(data: Array<any>): any {
+    private static first(data: any[]): any {
         for (let datum of data) {
             if (datum !== undefined) {
                 return datum;
@@ -70,7 +70,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         return undefined;
     }
 
-    public getPossibilities(offset: number): Array<number> {
+    public getPossibilities(offset: number): number[] {
         return this._possibles[offset];
     }
 
@@ -127,7 +127,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _eliminateRowDangling(): void {
         for (let y: number = 0; y < SudokuGrid.HEIGHT; ++y) {
             let offset: number = y * SudokuGrid.DIMENSION;
-            let counters: Array<Array<number>> = [];
+            let counters: number[][] = [];
             for (let x: number = 0; x < SudokuGrid.WIDTH; ++x) {
                 this._adjustPossibleCounters(counters, offset++);
             }
@@ -138,7 +138,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _eliminateColumnDangling(): void {
         for (let x: number = 0; x < SudokuGrid.WIDTH; ++x) {
             let offset: number = x;
-            let counters: Array<Array<number>> = [];
+            let counters: number[][] = [];
             for (let y: number = 0; y < SudokuGrid.HEIGHT; ++y) {
                 this._adjustPossibleCounters(counters, offset);
                 offset += SudokuGrid.DIMENSION;
@@ -151,7 +151,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         for (let y: number = 0; y < SudokuGrid.HEIGHT; y += SudokuGrid.BOX_DIMENSION) {
             let boxStartY: number = y - y % SudokuGrid.BOX_DIMENSION;
             for (let x: number = 0; x < SudokuGrid.WIDTH; x += SudokuGrid.BOX_DIMENSION) {
-                let counters: Array<Array<number>> = [];
+                let counters: number[][] = [];
                 let boxStartX: number = x - x % SudokuGrid.BOX_DIMENSION;
                 for (let yOffset: number = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
                     let boxY: number = yOffset + boxStartY;
@@ -165,8 +165,8 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         }
     }
 
-    private _transferCountedEliminations(counters: Array<Array<number>>): void {
-        counters.forEach((counter: Array<number>, i: number) => {
+    private _transferCountedEliminations(counters: number[][]): void {
+        counters.forEach((counter: number[], i: number) => {
             if (counter.length === 1) {
                 let cell: number = counter[0];
                 delete this._possibles[cell];
@@ -175,11 +175,11 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         });
     }
 
-    private _adjustPossibleCounters(counters: Array<Array<number>>, offset: number): void {
-        let possibles: Array<number> = this._possibles[offset];
+    private _adjustPossibleCounters(counters: number[][], offset: number): void {
+        let possibles: number[] = this._possibles[offset];
         if (possibles !== undefined) {
             possibles.forEach((possible: number) => {
-                let counter: Array<number> = counters[possible];
+                let counter: number[] = counters[possible];
                 if (counter === undefined) {
                     counter = [];
                     counters[possible] = counter;
@@ -206,7 +206,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
 
     private _transferSingularPossibilities(): boolean {
         let transfer: boolean = false;
-        this._possibles.forEach((possible: Array<number>, offset: number) => {
+        this._possibles.forEach((possible: number[], offset: number) => {
             let count: number = SudokuGrid.count(possible);
             if (count === 1) {
                 let singular: number = SudokuGrid.first(possible);
@@ -221,7 +221,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _clearRowPossibles(y: number, current: number): void {
         let offset: number = y * SudokuGrid.DIMENSION;
         for (let x: number = 0; x < SudokuGrid.WIDTH; ++x) {
-            let possibles: Array<number> = this._possibles[offset++];
+            let possibles: number[] = this._possibles[offset++];
             if (possibles !== undefined) {
                 delete possibles[current];
             }
@@ -231,7 +231,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     private _clearColumnPossibles(x: number, current: number): void {
         let offset: number = x;
         for (let y: number = 0; y < SudokuGrid.HEIGHT; ++y) {
-            let possibles: Array<number> = this._possibles[offset];
+            let possibles: number[] = this._possibles[offset];
             if (possibles !== undefined) {
                 delete possibles[current];
             }
@@ -244,7 +244,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
             let y: number = yOffset + boxStartY;
             let offset: number = boxStartX + y * SudokuGrid.DIMENSION;
             for (let xOffset: number = 0; xOffset < SudokuGrid.BOX_DIMENSION; ++xOffset) {
-                let possibles: Array<number> = this._possibles[offset++];
+                let possibles: number[] = this._possibles[offset++];
                 if (possibles !== undefined) {
                     delete possibles[current];
                 }
@@ -253,7 +253,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
     }
 
     private _buildOffsets(): void {
-        this._possibles.forEach((possible: Array<number>, i: number) => {
+        this._possibles.forEach((possible: number[], i: number) => {
             let possibleCount: number = SudokuGrid.count(possible);
             if (possibleCount > 1) {
                 this._offsets.push(i);

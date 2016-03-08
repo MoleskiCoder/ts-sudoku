@@ -6,7 +6,7 @@ import { ISudokuGrid } from "./ISudokuGrid";
 import { ISolver } from "./ISolver";
 
 // http://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
-let data: Array<number> = [
+let data: number[] = [
     8, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 3, 6, 0, 0, 0, 0, 0,
     0, 7, 0, 0, 9, 0, 2, 0, 0,

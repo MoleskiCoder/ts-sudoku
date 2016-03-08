@@ -4,7 +4,7 @@ import {IGrid} from "./IGrid";
 
 export interface ISudokuGrid extends IGrid {
 
-    getPossibilities(offset: number): Array<number>;
+    getPossibilities(offset: number): number[];
     getOffset(index: number): number;
     eliminate(): void;
 

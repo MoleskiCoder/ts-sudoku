@@ -43,7 +43,7 @@ export class Solver implements ISolver {
             return true; // success!
         }
 
-        let numbers: Array<number> = this.grid.getPossibilities(offset);
+        let numbers: number[] = this.grid.getPossibilities(offset);
 
         let x: number = offset % SudokuGrid.DIMENSION;
         let y: number = Math.floor(offset / SudokuGrid.DIMENSION);

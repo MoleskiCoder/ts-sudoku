@@ -6,9 +6,9 @@ export class Grid implements IGrid {
 
     private _width: number;
     private _height: number;
-    private _values: Array<number>;
+    private _values: number[];
 
-    constructor(gridWidth: number, gridHeight: number, initial: Array<number>) {
+    constructor(gridWidth: number, gridHeight: number, initial: number[]) {
         this._width = gridWidth;
         this._height = gridHeight;
         this._values = initial;
