@@ -90,12 +90,8 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
             this._eliminateAssigned();
             this._eliminateDangling();
         } while (this._transferSingularPossibilities());
-        this._possibles.forEach((possible: Array<number>, i: number) => {
-            let possibleCount: number = SudokuGrid.count(possible);
-            if (possibleCount > 1) {
-                this._offsets.push(i);
-            }
-        });
+
+        this._buildOffsets();
     }
 
     public toString(): string {
@@ -255,4 +251,13 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
             }
         }
     }
+
+    private _buildOffsets(): void {
+        this._possibles.forEach((possible: Array<number>, i: number) => {
+            let possibleCount: number = SudokuGrid.count(possible);
+            if (possibleCount > 1) {
+                this._offsets.push(i);
+            }
+        });
+    };
 }
