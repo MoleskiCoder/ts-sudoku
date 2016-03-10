@@ -12,6 +12,9 @@ export class Solver implements ISolver {
 
     private grid: ISudokuGrid;
 
+    private recursed: number = 0;
+    private looped: number = 0;
+
     constructor(start: ISudokuGrid) {
         this.grid = start;
     }
@@ -37,6 +40,8 @@ export class Solver implements ISolver {
      */
     private _partialSolve(index: number): boolean {
 
+        ++this.recursed;
+
         let offset: number = this.grid.getOffset(index);
 
         if (offset === -1) {
@@ -51,6 +56,8 @@ export class Solver implements ISolver {
             if (check === undefined) {
                 continue;
             }
+
+            ++this.looped;
             if (this._isAvailable(x, y, check)) { // if looks promising,
                 this.grid.set(offset, check); // make tentative assignment
                 if (this._partialSolve(index + 1)) {
