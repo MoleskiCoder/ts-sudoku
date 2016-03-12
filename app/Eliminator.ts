@@ -57,7 +57,7 @@ export class Eliminator {
                 this._offsets.push(i);
             }
         });
-    };
+    }
 
     private _eliminateDangling(): void {
         this._eliminateRowDangling();
@@ -110,7 +110,6 @@ export class Eliminator {
         counters.forEach((counter: number[], i: number) => {
             if (counter.length === 1) {
                 let cell: number = counter[0];
-                delete this._possibles[cell];
                 this._possibles[cell] = [i];
             }
         });
