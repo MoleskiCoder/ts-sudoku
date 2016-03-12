@@ -6,6 +6,14 @@
     "noImplicitAny": true
   },
   "files": [
+    "./app/IGrid.ts",
+    "./app/Grid.ts",
+    "./app/ISudokuGrid.ts",
+    "./app/SudokuGrid.ts",
+    "./app/IEliminator.ts",
+    "./app/Eliminator.ts",
+    "./app/ISolver.ts",
+    "./app/Solver.ts",
     "./app/Sudoku.ts"
   ]
 }
