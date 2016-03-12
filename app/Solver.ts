@@ -5,8 +5,8 @@ import {SudokuGrid} from "./SudokuGrid";
 import {ISolver} from "./ISolver";
 
 /**
- * From: https://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf
- *
+ * Sudoku solver core.
+ * From: [Stanford University, backtracking examples](https://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf)
  */
 export class Solver implements ISolver {
 
@@ -19,14 +19,16 @@ export class Solver implements ISolver {
         this.grid = start;
     }
 
+    /**
+     * Solve the current Sudoku grid.
+     * @returns Returns whether the solution has been found.
+     */
     public solve(): boolean {
         this.grid.eliminate();
         return this._partialSolve(0);
     }
 
-    /*
-     * Function: _partialSolve
-     * -----------------------
+    /**
      * Takes a partially filled-in grid and attempts to assign values to all
      * unassigned locations in such a way to meet the requirements for sudoku
      * solution (non-duplication across rows, columns, and boxes). The function
@@ -37,6 +39,8 @@ export class Solver implements ISolver {
      * solved. If not, unmake that decision and try again. If all digits have
      * been examined and none worked out, return false to backtrack to previous
      * decision point.
+     * @param index current cell under consideration.
+     * @returns Returns whether the solution is good, so far.
      */
     private _partialSolve(index: number): boolean {
 
@@ -69,12 +73,14 @@ export class Solver implements ISolver {
         return false; // this triggers backtracking
     }
 
-    /*
-     * Function: _isAvailable
-     * ----------------------
+    /**
      * Returns a boolean which indicates whether it will be legal to assign
      * number to the given row,column location. As assignment is legal if it that
      * number is not already used in the row, column, or box.
+     * @param x X coordinate of cell.
+     * @param y Y coordinate of cell.
+     * @param check value to be checked.
+     * @returns Returns whether the check value is available to be used.
      */
     private _isAvailable(x: number, y: number, check: number): boolean {
         return !this._isUsedInRow(y, check)
@@ -82,11 +88,12 @@ export class Solver implements ISolver {
             && !this._isUsedInBox(x - x % SudokuGrid.BOX_DIMENSION, y - y % SudokuGrid.BOX_DIMENSION, check);
     }
 
-    /*
-     * Function: _isUsedInRow
-     * ----------------------
+    /**
      * Returns a boolean which indicates whether any assigned entry
      * in the specified row matches the given number.
+     * @param y Y coordinate of row start.
+     * @param check value to be checked.
+     * @returns whether the check value is already used in this row.
      */
     private _isUsedInRow(y: number, check: number): boolean {
         let offset: number = y * SudokuGrid.DIMENSION;
@@ -98,11 +105,12 @@ export class Solver implements ISolver {
         return false;
     }
 
-    /*
-     * Function: _isUsedInColumn
-     * -------------------------
+    /**
      * Returns a boolean which indicates whether any assigned entry
      * in the specified column matches the given number.
+     * @param x X coordinate of column start.
+     * @param check value to be checked.
+     * @returns whether the check value is already used in this column.
      */
     private _isUsedInColumn(x: number, check: number): boolean {
         let offset: number = x;
@@ -115,11 +123,13 @@ export class Solver implements ISolver {
         return false;
     }
 
-    /*
-     * Function: _isUsedInBox
-     * ----------------------
+    /**
      * Returns a boolean which indicates whether any assigned entry
      * within the specified 3x3 box matches the given number.
+     * @param boxStartX X coordinate of box start.
+     * @param boxStartY Y coordinate of box start.
+     * @param check value to be checked.
+     * @returns Returns whether the check value is already used in this box.
      */
     private _isUsedInBox(boxStartX: number, boxStartY: number, check: number): boolean {
         for (let yOffset: number = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
