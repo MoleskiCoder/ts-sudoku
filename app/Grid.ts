@@ -22,6 +22,22 @@ export class Grid implements IGrid {
         return this._height;
     }
 
+    public static calculateDimensionX(offset: number, dimension: number): number {
+        return offset % dimension;
+    }
+
+    public static calculateDimensionY(offset: number, dimension: number): number {
+        return Math.floor(offset / dimension);
+    }
+
+    public calculateX(offset: number): number {
+        return Grid.calculateDimensionX(offset, this.width);
+    }
+
+    public calculateY(offset: number): number {
+        return Grid.calculateDimensionY(offset, this.width);
+    }
+
     public set(first: number, second: number, third?: number): void {
         if (third === undefined) {
             this._setViaOffset(first, second);

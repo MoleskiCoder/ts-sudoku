@@ -60,6 +60,14 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
         return undefined;
     }
 
+    public static calculateBoxX(offset: number): number {
+        return Grid.calculateDimensionX(offset, SudokuGrid.BOX_DIMENSION);
+    }
+
+    public static calculateBoxY(offset: number): number {
+        return Grid.calculateDimensionY(offset, SudokuGrid.BOX_DIMENSION);
+    }
+
     public getPossibilities(offset: number): number[] {
         return this._eliminator.getPossibilities(offset);
     }
@@ -73,6 +81,7 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
             this._eliminator.eliminate();
         } while (this._transferSingularPossibilities());
         this._eliminator.buildOffsets();
+        console.log(this._eliminator.toString());
     }
 
     public toString(): string {
@@ -87,11 +96,11 @@ export class SudokuGrid extends Grid implements ISudokuGrid {
                     output += content;
                 }
                 output += " ";
-                if ((x + 1) % SudokuGrid.BOX_DIMENSION === 0 && x + 1 < SudokuGrid.WIDTH) {
+                if (SudokuGrid.calculateBoxX(x + 1) === 0 && x + 1 < SudokuGrid.WIDTH) {
                     output += "|";
                 }
             }
-            if ((y + 1) % SudokuGrid.BOX_DIMENSION === 0 && y + 1 < SudokuGrid.WIDTH) {
+            if (SudokuGrid.calculateBoxX(y + 1) === 0 && y + 1 < SudokuGrid.WIDTH) {
                 output += "\n --------+---------+--------";
             }
             output += "\n";

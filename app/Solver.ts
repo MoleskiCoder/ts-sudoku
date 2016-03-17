@@ -54,8 +54,8 @@ export class Solver implements ISolver {
 
         let numbers: number[] = this.grid.getPossibilities(offset);
 
-        let x: number = offset % SudokuGrid.DIMENSION;
-        let y: number = Math.floor(offset / SudokuGrid.DIMENSION);
+        let x: number = this.grid.calculateX(offset);
+        let y: number = this.grid.calculateY(offset);
         for (let check of numbers) {
             if (check === undefined) {
                 continue;
@@ -85,7 +85,7 @@ export class Solver implements ISolver {
     private _isAvailable(x: number, y: number, check: number): boolean {
         return !this._isUsedInRow(y, check)
             && !this._isUsedInColumn(x, check)
-            && !this._isUsedInBox(x - x % SudokuGrid.BOX_DIMENSION, y - y % SudokuGrid.BOX_DIMENSION, check);
+            && !this._isUsedInBox(x - SudokuGrid.calculateBoxX(x), y - SudokuGrid.calculateBoxX(y), check);
     }
 
     /**

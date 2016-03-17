@@ -7,4 +7,6 @@ export interface IEliminator {
     eliminate(): void;
 
     buildOffsets(): void;
+
+    toString(): string;
 }

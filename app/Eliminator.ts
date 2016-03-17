@@ -2,6 +2,7 @@
 
 import {ISudokuGrid} from "./ISudokuGrid";
 import {SudokuGrid} from "./SudokuGrid";
+import {IGrid} from "./IGrid";
 
 export class Eliminator {
 
@@ -59,6 +60,61 @@ export class Eliminator {
         });
     }
 
+    public toString(): string {
+
+        let output: number[][] = [];
+
+        this._possibles.forEach((possible: number[], i: number) => {
+
+            let cellX: number = this._grid.calculateX(i);
+            let cellY: number = this._grid.calculateY(i);
+            possible.forEach((candidate: number, j: number) => {
+                let boxX: number = SudokuGrid.calculateBoxX(j - 1);
+                let boxY: number = SudokuGrid.calculateBoxY(j - 1);
+
+                let outputX: number = cellX * SudokuGrid.BOX_DIMENSION + boxX;
+                let outputY: number = cellY * SudokuGrid.BOX_DIMENSION + boxY;
+
+                let column: number[] = output[outputX];
+                if (column === undefined) {
+                    output[outputX] = [];
+                }
+                output[outputX][outputY] = candidate;
+            });
+        });
+
+        let outputDimension: number = SudokuGrid.DIMENSION * SudokuGrid.BOX_DIMENSION;
+        let returnValue: string = "";
+        for (let y: number = 0; y < outputDimension; ++y) {
+            for (let x: number = 0; x < outputDimension; ++x) {
+                let possible: number = output[x][y];
+                if (possible === undefined) {
+                    returnValue += "-";
+                } else {
+                    returnValue += possible;
+                }
+                if ((SudokuGrid.calculateDimensionX(x + 1, SudokuGrid.DIMENSION) === 0) && (x + 1 < outputDimension)) {
+                    returnValue += " | ";
+                } else {
+                    if (SudokuGrid.calculateBoxX(x + 1) === 0) {
+                        returnValue += " ";
+                    }
+                }
+            }
+            returnValue += "\n";
+
+            if ((SudokuGrid.calculateDimensionX(y + 1, SudokuGrid.DIMENSION) === 0) && (y + 1 < outputDimension)) {
+                returnValue += "\n-----------------------------------------\n\n";
+            } else {
+                if (SudokuGrid.calculateBoxX(y + 1) === 0) {
+                    returnValue += "\n";
+                }
+            }
+        }
+
+        return returnValue;
+    }
+
     private _eliminateDangling(): void {
         this._eliminateRowDangling();
         this._eliminateColumnDangling();
@@ -90,10 +146,10 @@ export class Eliminator {
 
     private _eliminateBoxDangling(): void {
         for (let y: number = 0; y < SudokuGrid.HEIGHT; y += SudokuGrid.BOX_DIMENSION) {
-            let boxStartY: number = y - y % SudokuGrid.BOX_DIMENSION;
+            let boxStartY: number = y - SudokuGrid.calculateBoxX(y);
             for (let x: number = 0; x < SudokuGrid.WIDTH; x += SudokuGrid.BOX_DIMENSION) {
                 let counters: number[][] = [];
-                let boxStartX: number = x - x % SudokuGrid.BOX_DIMENSION;
+                let boxStartX: number = x - SudokuGrid.calculateBoxX(x);
                 for (let yOffset: number = 0; yOffset < SudokuGrid.BOX_DIMENSION; ++yOffset) {
                     let boxY: number = yOffset + boxStartY;
                     let offset: number = boxStartX + boxY * SudokuGrid.DIMENSION;
@@ -131,13 +187,13 @@ export class Eliminator {
 
     private _eliminateAssigned(): void {
         for (let y: number = 0; y < SudokuGrid.HEIGHT; ++y) {
-            let boxY: number = y - y % SudokuGrid.BOX_DIMENSION;
+            let boxY: number = y - SudokuGrid.calculateBoxX(y);
             for (let x: number = 0; x < SudokuGrid.WIDTH; ++x) {
                 let current: number = this._grid.get(x, y);
                 if (current !== SudokuGrid.UNASSIGNED) {
                     this._clearRowPossibles(y, current);
                     this._clearColumnPossibles(x, current);
-                    let boxX: number = x - x % SudokuGrid.BOX_DIMENSION;
+                    let boxX: number = x - SudokuGrid.calculateBoxX(x);
                     this._clearBoxPossibilities(boxX, boxY, current);
                 }
             }
