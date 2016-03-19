@@ -2,7 +2,6 @@
 
 import {ISudokuGrid} from "./ISudokuGrid";
 import {SudokuGrid} from "./SudokuGrid";
-import {IGrid} from "./IGrid";
 
 export class Eliminator {
 
@@ -75,8 +74,7 @@ export class Eliminator {
                 let outputX: number = cellX * SudokuGrid.BOX_DIMENSION + boxX;
                 let outputY: number = cellY * SudokuGrid.BOX_DIMENSION + boxY;
 
-                let column: number[] = output[outputX];
-                if (column === undefined) {
+                if (output[outputX] === undefined) {
                     output[outputX] = [];
                 }
                 output[outputX][outputY] = candidate;
