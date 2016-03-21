@@ -2,8 +2,9 @@
 
 import {ISudokuGrid} from "./ISudokuGrid";
 import {SudokuGrid} from "./SudokuGrid";
+import {IEliminator} from "./IEliminator";
 
-export class Eliminator {
+export class Eliminator implements IEliminator {
 
     private _grid: ISudokuGrid;
 
